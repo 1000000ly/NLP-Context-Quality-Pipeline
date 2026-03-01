@@ -11,7 +11,7 @@ This repository contains a diagnostic study on the robustness of Retrieval-Augme
 * **Environment Management**: Project dependencies and reproducibility are managed via `uv.lock` and `pyproject.toml`.
 
 ## Key Findings
-* ]**Performance Gap**: Gold-only oracle contexts achieved 34.92% Exact Match (EM) accuracy, compared to 21.75% for the best mixed-context retrieval setting, revealing a 13.17-point performance gap.
+* **Performance Gap**: Gold-only oracle contexts achieved 34.92% Exact Match (EM) accuracy, compared to 21.75% for the best mixed-context retrieval setting, revealing a 13.17-point performance gap.
 * **Noise Sensitivity**: Random noise is significantly more detrimental to generation than semantically related hard negatives. At a retrieval depth of k=5, random noise caused a 4.25% drop in EM, whereas hard negatives resulted in a negligible 0.42% decrease.
 * **Semantic Coherence**: Results indicate that generators effectively tolerate factual distractions as long as the context remains topically consistent, but struggle with the semantic discontinuity introduced by random noise.
 
