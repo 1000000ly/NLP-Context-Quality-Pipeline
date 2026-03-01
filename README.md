@@ -1,35 +1,28 @@
-Impact of Context Quality on Retrieval-Augmented Generation for Complex QA
-Overview
-This project presents a diagnostic study on the robustness of Retrieval-Augmented Generation (RAG) systems when faced with varying levels of context quality. Using the 2WikiMultiHopQA dataset, the pipeline evaluates how different noise types—specifically random negatives and semantically related hard negatives—influence the accuracy of multi-hop answer generation. The study identifies a significant performance gap between standard retrieval-based systems and an oracle upper bound.
-+4
+# Impact of Context Quality on Retrieval-Augmented Generation for Complex QA
 
-Technical Implementation
+## Overview
+This repository contains a diagnostic study on the robustness of Retrieval-Augmented Generation (RAG) systems when processing complex, multi-hop questions. [cite_start]Using the 2WikiMultiHopQA dataset, the pipeline evaluates how different noise types—specifically random negatives and semantically related hard negatives—influence the accuracy of downstream answer generation[cite: 1, 31, 34].
 
-Data Scale: The system processes a Wikipedia-based corpus consisting of 526,329 documents.
+## Technical Implementation
+* [cite_start]**Data Scale**: Processes a Wikipedia-based corpus consisting of 526,329 documents[cite: 93].
+* [cite_start]**Retrieval Optimization**: Utilizes Contriever as a dense retriever, with query encoder fine-tuning performed via the ADORE framework to improve ranking precision[cite: 56, 62, 104].
+* [cite_start]**Generation Model**: Employs Flan-T5-Base as a fixed generator conditioned on retrieved contexts[cite: 77].
+* [cite_start]**Infrastructure**: Experiments conducted using NVIDIA RTX 4090 GPU hardware on a cloud computing platform[cite: 115].
+* **Environment Management**: Project dependencies and reproducibility are managed via `uv.lock` and `pyproject.toml`.
 
+## Key Findings
+* [cite_start]**Performance Gap**: Gold-only oracle contexts achieved 34.92% Exact Match (EM) accuracy, compared to 21.75% for the best mixed-context retrieval setting, revealing a 13.17-point performance gap[cite: 10].
+* **Noise Sensitivity**: Random noise is significantly more detrimental to generation than semantically related hard negatives. [cite_start]At a retrieval depth of k=5, random noise caused a 4.25% drop in EM, whereas hard negatives resulted in a negligible 0.42% decrease[cite: 125, 130].
+* [cite_start]**Semantic Coherence**: Results indicate that generators effectively tolerate factual distractions as long as the context remains topically consistent, but struggle with the semantic discontinuity introduced by random noise[cite: 138, 158].
 
-Data Preprocessing: Document titles are normalized and deduplicated to ensure data integrity.
+## Project Structure
+* `NLP_2025_project 1.pdf`: Full technical report detailing methodology and quantitative analysis.
+* `clean_corpus.py`: Script for cleaning and normalizing the primary data corpus.
+* `evaluate_oracle.py`: Establishing the performance upper bound using annotated gold documents.
+* `step6_adore_training.ipynb`: Implementation of the ADORE fine-tuning process for optimized retrieval.
+* `run_answer_generation.py`: Core script for executing the end-to-end RAG inference pipeline.
 
-
-Retrieval and Optimization: The pipeline utilizes Contriever as a dense retriever, with query encoder fine-tuning performed via the ADORE framework to improve ranking precision.
-+2
-
-
-Generation: Flan-T5-Base serves as the fixed generator, conditioned on retrieved contexts to produce concise answers.
-+1
-
-
-Infrastructure: Experiments were conducted using NVIDIA RTX 4090 GPU hardware on a cloud computing platform.
-
-Environment Management: Dependency management and environment reproducibility are handled via uv.lock and pyproject.toml.
-
-Key Findings
-
-The Oracle Gap: Gold-only oracle contexts achieved 34.92% Exact Match (EM) accuracy, compared to 21.75% for the best mixed-context retrieval setting, revealing a 13.17-point performance ceiling.
-
-
-Noise Sensitivity: Random noise is significantly more detrimental to generation than semantically related hard negatives. At a retrieval depth of k=5, random noise caused a 4.25% drop in accuracy, while hard negatives resulted in a negligible 0.42% decrease.
-+3
-
-
-Semantic Coherence: The findings suggest that as long as the retrieved context remains topically consistent, the generator can effectively tolerate factual distractions. However, it struggles with the semantic discontinuity introduced by unrelated random noise.
+## Setup
+This project uses `uv` for Python package management. To install dependencies and synchronize the environment:
+```bash
+uv sync
